@@ -4,22 +4,9 @@ using UnityEngine;
 
 public class ScoreCtrl : MonoBehaviour
 {
-    // Start is called before the first frame update
-    void Start()
+    private Rigidbody2D r2d;
+    void Awake()
     {
-        
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
-    private void OnCollisionEnter2D(Collision2D collision)
-    {
-        if (collision.gameObject.CompareTag("Ground"))
-        {
-            
-        }
+        r2d = gameObject.GetComponent<Rigidbody2D>();
     }
 }

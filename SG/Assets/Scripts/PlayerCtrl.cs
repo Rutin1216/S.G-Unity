@@ -1,15 +1,18 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-
+using UnityEngine.UI;
 public class PlayerCtrl : MonoBehaviour
 {
     public int MSpeed;
     public int JForce;
-    Vector3 Pos;
-    float Horizontal;
-    Rigidbody2D rigid2D;
-    private bool Jumpbool;
+    public Text Score; //ì ìˆ˜UI
+    public GameObject GM;
+    private bool scorebool;
+    private Vector3 Pos;
+    private float Horizontal;
+    private float PlayerScore;
+    private Rigidbody2D rigid2D;
     // Start is called before the first frame update
     void Start()
     {
@@ -21,6 +24,14 @@ public class PlayerCtrl : MonoBehaviour
     {
         Move();
         Jump();
+        scorebool = GM.GetComponent<GameManagerCtrl>().Scorebool;
+    }
+    void FixedUpdate()
+    {
+        if(scorebool){
+            StartCoroutine(GetScore());
+            
+        }
     }
 
     void Move()
@@ -29,30 +40,34 @@ public class PlayerCtrl : MonoBehaviour
         Pos = transform.position;
         Pos.x += Horizontal * Time.deltaTime * MSpeed;
         transform.position = Pos;
-        Vector3 viewPos = Camera.main.WorldToViewportPoint(transform.position); //Ä³¸¯ÅÍÀÇ ¿ùµå ÁÂÇ¥¸¦ ºäÆ÷Æ® ÁÂÇ¥°è·Î º¯È¯ÇØÁØ´Ù.
-        viewPos.x = Mathf.Clamp01(viewPos.x); //x°ªÀ» 0ÀÌ»ó, 1ÀÌÇÏ·Î Á¦ÇÑÇÑ´Ù.
-        viewPos.y = Mathf.Clamp01(viewPos.y); //y°ªÀ» 0ÀÌ»ó, 1ÀÌÇÏ·Î Á¦ÇÑÇÑ´Ù.
-        Vector3 worldPos = Camera.main.ViewportToWorldPoint(viewPos); //´Ù½Ã ¿ùµå ÁÂÇ¥·Î º¯È¯ÇÑ´Ù.
-        transform.position = worldPos; //ÁÂÇ¥¸¦ Àû¿ëÇÑ´Ù.
+        Vector3 viewPos = Camera.main.WorldToViewportPoint(transform.position); //Ä³ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½Ç¥ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½Æ® ï¿½ï¿½Ç¥ï¿½ï¿½ï¿½ ï¿½ï¿½È¯ï¿½ï¿½ï¿½Ø´ï¿½.
+        viewPos.x = Mathf.Clamp01(viewPos.x); //xï¿½ï¿½ï¿½ï¿½ 0ï¿½Ì»ï¿½, 1ï¿½ï¿½ï¿½Ï·ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ñ´ï¿½.
+        viewPos.y = Mathf.Clamp01(viewPos.y); //yï¿½ï¿½ï¿½ï¿½ 0ï¿½Ì»ï¿½, 1ï¿½ï¿½ï¿½Ï·ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ñ´ï¿½.
+        Vector3 worldPos = Camera.main.ViewportToWorldPoint(viewPos); //ï¿½Ù½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½Ç¥ï¿½ï¿½ ï¿½ï¿½È¯ï¿½Ñ´ï¿½.
+        transform.position = worldPos; //ï¿½ï¿½Ç¥ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ñ´ï¿½.
     }
 
     void Jump()
     {
-        if (Input.GetKeyDown(KeyCode.Space))
+        if(Input.GetKeyDown(KeyCode.Space))
         {
-            if (!Jumpbool)
-            {
-                Jumpbool = true;
+            if(rigid2D.velocity.y == 0)
                 rigid2D.AddForce(Vector3.up * JForce, ForceMode2D.Impulse);
-            }
+        }
+        
+    }
+    void OnTriggerEnter2D(Collider2D other)
+    {
+        if(other.gameObject.layer == LayerMask.NameToLayer("Score"))
+        {
+            other.enabled = false;
         }
     }
 
-    private void OnCollisionEnter2D(Collision2D collision)
+    IEnumerator GetScore()
     {
-        if (collision.gameObject.CompareTag("Ground"))
-        {
-            Jumpbool = false;
-        }
+        PlayerScore += Time.deltaTime;
+        Score.GetComponent<Text>().text = ((int)PlayerScore).ToString();
+        yield return null;
     }
 }

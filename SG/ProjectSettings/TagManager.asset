@@ -5,11 +5,15 @@ TagManager:
   serializedVersion: 2
   tags:
   - Ground
+  - C
+  - B
+  - A
+  - F
   layers:
   - Default
   - TransparentFX
   - Ignore Raycast
-  - 
+  - Score
   - Water
   - UI
   - 
