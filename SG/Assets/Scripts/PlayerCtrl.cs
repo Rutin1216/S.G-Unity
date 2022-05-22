@@ -19,15 +19,11 @@ public class PlayerCtrl : MonoBehaviour
         rigid2D = GetComponent<Rigidbody2D>();
     }
 
-    // Update is called once per frame
-    void Update()
+    void FixedUpdate()
     {
         Move();
         Jump();
         scorebool = GM.GetComponent<GameManagerCtrl>().Scorebool;
-    }
-    void FixedUpdate()
-    {
         if(scorebool){
             StartCoroutine(GetScore());
             
@@ -40,11 +36,11 @@ public class PlayerCtrl : MonoBehaviour
         Pos = transform.position;
         Pos.x += Horizontal * Time.deltaTime * MSpeed;
         transform.position = Pos;
-        Vector3 viewPos = Camera.main.WorldToViewportPoint(transform.position); //ĳ������ ���� ��ǥ�� ����Ʈ ��ǥ��� ��ȯ���ش�.
-        viewPos.x = Mathf.Clamp01(viewPos.x); //x���� 0�̻�, 1���Ϸ� �����Ѵ�.
-        viewPos.y = Mathf.Clamp01(viewPos.y); //y���� 0�̻�, 1���Ϸ� �����Ѵ�.
-        Vector3 worldPos = Camera.main.ViewportToWorldPoint(viewPos); //�ٽ� ���� ��ǥ�� ��ȯ�Ѵ�.
-        transform.position = worldPos; //��ǥ�� �����Ѵ�.
+        Vector3 viewPos = Camera.main.WorldToViewportPoint(transform.position); 
+        viewPos.x = Mathf.Clamp01(viewPos.x); 
+        viewPos.y = Mathf.Clamp01(viewPos.y); 
+        Vector3 worldPos = Camera.main.ViewportToWorldPoint(viewPos); 
+        transform.position = worldPos; 
     }
 
     void Jump()
