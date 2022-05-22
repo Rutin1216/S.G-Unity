@@ -6,12 +6,10 @@ public class PlayerCtrl : MonoBehaviour
 {
     public int MSpeed;
     public int JForce;
-    public Text Score; //점수UI
-    public GameObject GM;
-    private bool scorebool;
+    
     private Vector3 Pos;
     private float Horizontal;
-    private float PlayerScore;
+    
     private Rigidbody2D rigid2D;
     // Start is called before the first frame update
     void Start()
@@ -19,17 +17,16 @@ public class PlayerCtrl : MonoBehaviour
         rigid2D = GetComponent<Rigidbody2D>();
     }
 
-    void FixedUpdate()
+    private void Update()
     {
         Move();
         Jump();
-        scorebool = GM.GetComponent<GameManagerCtrl>().Scorebool;
-        if(scorebool){
-            StartCoroutine(GetScore());
-            
-        }
     }
-
+    void FixedUpdate()
+    {
+        
+        
+    }
     void Move()
     {
         Horizontal = Input.GetAxisRaw("Horizontal");
@@ -60,10 +57,5 @@ public class PlayerCtrl : MonoBehaviour
         }
     }
 
-    IEnumerator GetScore()
-    {
-        PlayerScore += Time.deltaTime;
-        Score.GetComponent<Text>().text = ((int)PlayerScore).ToString();
-        yield return null;
-    }
+    
 }

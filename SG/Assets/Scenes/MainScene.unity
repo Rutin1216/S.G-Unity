@@ -824,6 +824,7 @@ MonoBehaviour:
   Start_BT: {fileID: 1696293191}
   Setting_BT: {fileID: 1615345269}
   StartCanvas: {fileID: 1921929311}
+  Score: {fileID: 337679882}
   Score_F: {fileID: 8348527564758873591, guid: c343a4ef2dd9045a69c8054ee4cc05af, type: 3}
   Score_F_Max: 7
   Score_C: {fileID: 327561243436193569, guid: fab01ccd8ae2e4faaaeecc1e1f1c1dac, type: 3}
@@ -1111,8 +1112,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   MSpeed: 500
   JForce: 500
-  Score: {fileID: 337679882}
-  GM: {fileID: 766260809}
 --- !u!212 &1503613132
 SpriteRenderer:
   m_ObjectHideFlags: 0

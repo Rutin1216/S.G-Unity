@@ -10,6 +10,7 @@ public class GameManagerCtrl : MonoBehaviour
     public Button Start_BT;//게임시작 버튼UI
     public Button Setting_BT;//게임설정 버튼UI
     public Canvas StartCanvas;//게임시작UI
+    public Text Score; //점수UI
 
     //학점오브젝트
     public GameObject Score_F;
@@ -29,8 +30,10 @@ public class GameManagerCtrl : MonoBehaviour
     private GameObject[] Score_A_Array;
     private MemoryPool MPool_F, MPool_C, MPool_B, MPool_A;
     private Vector3 Spownpoint;
+    private float PlayerScore;
     private bool Puasebool;
-    
+    private bool scorebool;
+
 
     // Start is called before the first frame update
     void Start()
@@ -64,6 +67,7 @@ public class GameManagerCtrl : MonoBehaviour
     {
         if(Scorebool)
         {
+            StartCoroutine(GetScore());
             ScoreGenerator();
         }
     }
@@ -148,5 +152,14 @@ public class GameManagerCtrl : MonoBehaviour
         
     }
 
-    
+    IEnumerator GetScore()
+    {
+        
+        PlayerScore += Time.deltaTime;
+        Score.GetComponent<Text>().text = ((int)PlayerScore).ToString();
+        yield return null;
+       
+    }
+
+
 }
