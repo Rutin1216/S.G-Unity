@@ -8,7 +8,10 @@ public class PlayerCtrl : MonoBehaviour
 {
     public int MSpeed;
     public int JForce;
-    
+    public int C_score;
+    public int B_score;
+    public int A_score;
+    public GameObject Gamemanager;
     private Vector3 Pos;
     private float Horizontal;
     private Rigidbody2D rigid2D;
@@ -20,6 +23,7 @@ public class PlayerCtrl : MonoBehaviour
         rigid2D = GetComponent<Rigidbody2D>();
         anim = GetComponent<Animator>();
         sprender = GetComponent<SpriteRenderer>();
+        Gamemanager = GameObject.Find("GameManager");
     }
 
     private void Update()
@@ -71,19 +75,57 @@ public class PlayerCtrl : MonoBehaviour
             }
                 
         }
+        if(rigid2D.velocity.y == 0)
+        {
+            anim.SetBool("Jumpbool", false);
+        }
         
     }
     void OnTriggerEnter2D(Collider2D other)
     {
         if(other.gameObject.layer == LayerMask.NameToLayer("Score"))
         {
-            other.enabled = false;
-        }
-        if(other.gameObject.layer == LayerMask.NameToLayer("Ground"))
-        {
-            anim.SetBool("Jumpbool", false);
+            switch(other.gameObject.tag)
+            {
+                case "F" :
+                    StartCoroutine(playerhit(other));
+                    break;
+                case "C":
+                    StartCoroutine(getScore(other, C_score));
+                    break;
+                case "B":
+                    StartCoroutine(getScore(other, B_score));
+                    break;
+                case "A":
+                    StartCoroutine(getScore(other, A_score));
+                    break;    
+            }
         }
     }
 
-    
+    IEnumerator playerhit(Collider2D other)
+    {
+        other.enabled = false;
+        gameObject.layer = 8;
+        int cnt = 0;
+        while(cnt < 10)
+        {
+            if(cnt % 2 == 0)
+                sprender.color = new Color32(255,255,255,90);
+            else
+                sprender.color = new Color32(255,255,255,180);
+
+            yield return new WaitForSeconds(0.2f);
+            cnt++;
+        }
+        gameObject.layer = 7;
+        sprender.color = new Color32(255,255,255,255);
+    }
+
+    IEnumerator getScore(Collider2D other, int score)
+    {
+        Gamemanager.GetComponent<GameManagerCtrl>().addScore(score);
+        other.enabled = false;
+        yield return null;
+    }
 }

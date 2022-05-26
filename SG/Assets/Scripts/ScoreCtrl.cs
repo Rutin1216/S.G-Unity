@@ -8,5 +8,7 @@ public class ScoreCtrl : MonoBehaviour
     void Awake()
     {
         r2d = gameObject.GetComponent<Rigidbody2D>();
+        
     }
+    
 }

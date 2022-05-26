@@ -255,17 +255,18 @@ public class GameManagerCtrl : MonoBehaviour
     IEnumerator GetScore()
     {
         PlayerScore += Time.deltaTime;
-        switch((int)PlayerScore)
+        
+        if((int)PlayerScore >= 300)
         {
-            case 10 :
-                Gamelevel = 2;
-                break;
-            case 20 :
-                Gamelevel = 3;
-                break;
-            case 30 :
-                Gamelevel = 4;
-                break;
+            Gamelevel = 4;
+        }
+        else if((int)PlayerScore >= 200)
+        {
+            Gamelevel = 3;
+        }
+        else if((int)PlayerScore >= 100)
+        {
+            Gamelevel = 2;
         }
         Score.GetComponent<Text>().text = ((int)PlayerScore).ToString();
         StartCoroutine(Gamelevelup());
@@ -297,5 +298,10 @@ public class GameManagerCtrl : MonoBehaviour
         yield return null;
     }
 
+    public void addScore(int score)
+    {
+        PlayerScore += score;
+        Score.GetComponent<Text>().text = ((int)PlayerScore).ToString();
+    }
 
 }
