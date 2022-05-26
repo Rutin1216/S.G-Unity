@@ -15,13 +15,16 @@ public class GameManagerCtrl : MonoBehaviour
     //학점오브젝트
     public GameObject Score_F;
     public int Score_F_Max;
+    public int F_level;
     public GameObject Score_C;
     public int Score_C_Max;
+    public int C_level;
     public GameObject Score_B;
     public int Score_B_Max;
+    public int B_level;
     public GameObject Score_A;
     public int Score_A_Max;
-    public bool Scorebool;
+    public int A_level;
 
     //중요! 건드리면 안됨
     private GameObject[] Score_F_Array;
@@ -32,7 +35,8 @@ public class GameManagerCtrl : MonoBehaviour
     private Vector3 Spownpoint;
     private float PlayerScore;
     private bool Puasebool;
-    private bool scorebool;
+    private bool Scorebool;
+    private int Gamelevel;
 
 
     // Start is called before the first frame update
@@ -40,6 +44,7 @@ public class GameManagerCtrl : MonoBehaviour
     {
         Scorebool = false;
         Puasebool = false;
+        Gamelevel = 1;
 
         MPool_F = new MemoryPool();
         MPool_C = new MemoryPool();
@@ -101,7 +106,8 @@ public class GameManagerCtrl : MonoBehaviour
 
     private void ScoreGenerator()
     {
-        for(int i = 0; i < Score_F_Max; i++)
+        //F학점 오브젝트 생성기
+        for(int i = 0; i < F_level; i++)
         { 
             if (Score_F_Array[i] == null) 
             { 
@@ -110,12 +116,11 @@ public class GameManagerCtrl : MonoBehaviour
                 Spownpoint.x = Random.Range(-640.0f,640.0f);
                 
                 Score_F_Array[i].transform.position = Spownpoint;
-                
+
                 break;
             } 
         }
-
-        for(int i = 0; i < Score_F_Max; i++)
+        for(int i = 0; i < F_level; i++)
         {
             // 만약 미사일[i]가 활성화 되어있다면
             if(Score_F_Array[i])
@@ -129,6 +134,101 @@ public class GameManagerCtrl : MonoBehaviour
                     MPool_F.RemoveItem(Score_F_Array[i]);
                     // 가리키는 배열의 해당 항목도 null(값 없음)로 만든다.
                     Score_F_Array[i] = null;
+                }
+            }
+        }
+
+        //C학점 오브젝트 생성기
+        for(int i = 0; i < C_level; i++)
+        { 
+            if (Score_C_Array[i] == null) 
+            { 
+                Score_C_Array[i] = MPool_C.NewItem(); 
+
+                Spownpoint.x = Random.Range(-640.0f,640.0f);
+                
+                Score_C_Array[i].transform.position = Spownpoint;
+                
+                break;
+            } 
+        }
+        for(int i = 0; i < C_level; i++)
+        {
+            // 만약 미사일[i]가 활성화 되어있다면
+            if(Score_C_Array[i])
+            {
+                // 미사일[i]의 Collider2D가 비활성 되었다면
+                if(Score_C_Array[i].GetComponent<Collider2D>().enabled == false)
+                {
+                    // 다시 Collider2D를 활성화 시키고
+                    Score_C_Array[i].GetComponent<Collider2D>().enabled = true;
+                    // 미사일을 메모리로 돌려보내고
+                    MPool_C.RemoveItem(Score_C_Array[i]);
+                    // 가리키는 배열의 해당 항목도 null(값 없음)로 만든다.
+                    Score_C_Array[i] = null;
+                }
+            }
+        }
+        //B학점 오브젝트 생성기
+        for(int i = 0; i < B_level; i++)
+        { 
+            if (Score_B_Array[i] == null) 
+            { 
+                Score_B_Array[i] = MPool_B.NewItem(); 
+
+                Spownpoint.x = Random.Range(-640.0f,640.0f);
+                
+                Score_B_Array[i].transform.position = Spownpoint;
+                
+                break;
+            } 
+        }
+        for(int i = 0; i < B_level; i++)
+        {
+            // 만약 미사일[i]가 활성화 되어있다면
+            if(Score_B_Array[i])
+            {
+                // 미사일[i]의 Collider2D가 비활성 되었다면
+                if(Score_B_Array[i].GetComponent<Collider2D>().enabled == false)
+                {
+                    // 다시 Collider2D를 활성화 시키고
+                    Score_B_Array[i].GetComponent<Collider2D>().enabled = true;
+                    // 미사일을 메모리로 돌려보내고
+                    MPool_B.RemoveItem(Score_B_Array[i]);
+                    // 가리키는 배열의 해당 항목도 null(값 없음)로 만든다.
+                    Score_B_Array[i] = null;
+                }
+            }
+        }
+
+        //A학점 오브젝트 생성기
+        for(int i = 0; i < A_level; i++)
+        { 
+            if (Score_A_Array[i] == null) 
+            { 
+                Score_A_Array[i] = MPool_A.NewItem(); 
+
+                Spownpoint.x = Random.Range(-640.0f,640.0f);
+                
+                Score_A_Array[i].transform.position = Spownpoint;
+                
+                break;
+            } 
+        }
+        for(int i = 0; i < A_level; i++)
+        {
+            // 만약 미사일[i]가 활성화 되어있다면
+            if(Score_A_Array[i])
+            {
+                // 미사일[i]의 Collider2D가 비활성 되었다면
+                if(Score_A_Array[i].GetComponent<Collider2D>().enabled == false)
+                {
+                    // 다시 Collider2D를 활성화 시키고
+                    Score_A_Array[i].GetComponent<Collider2D>().enabled = true;
+                    // 미사일을 메모리로 돌려보내고
+                    MPool_A.RemoveItem(Score_A_Array[i]);
+                    // 가리키는 배열의 해당 항목도 null(값 없음)로 만든다.
+                    Score_A_Array[i] = null;
                 }
             }
         }
@@ -154,11 +254,47 @@ public class GameManagerCtrl : MonoBehaviour
 
     IEnumerator GetScore()
     {
-        
         PlayerScore += Time.deltaTime;
+        switch((int)PlayerScore)
+        {
+            case 10 :
+                Gamelevel = 2;
+                break;
+            case 20 :
+                Gamelevel = 3;
+                break;
+            case 30 :
+                Gamelevel = 4;
+                break;
+        }
         Score.GetComponent<Text>().text = ((int)PlayerScore).ToString();
+        StartCoroutine(Gamelevelup());
         yield return null;
-       
+    }
+    IEnumerator Gamelevelup()
+    {
+        switch(Gamelevel)
+        {
+            case 2 :
+                F_level = 7;
+                C_level = 5;
+                B_level = 4;
+                A_level = 2;
+                break;
+            case 3 :
+                F_level = 9;
+                C_level = 7;
+                B_level = 5;
+                A_level = 3;
+                break;
+            case 4 :
+                F_level = 10;
+                C_level = 7;
+                B_level = 6;
+                A_level = 4;
+                break;
+        }
+        yield return null;
     }
 
 
