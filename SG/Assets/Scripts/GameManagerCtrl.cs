@@ -73,16 +73,16 @@ public class GameManagerCtrl : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        
-    }
-
-    void FixedUpdate()
-    {
-        if(Scorebool)
+        if (Scorebool)
         {
             StartCoroutine(GetScore());
             ScoreGenerator();
         }
+    }
+
+    void FixedUpdate()
+    {
+        
     }
     public void StartBT()
     {

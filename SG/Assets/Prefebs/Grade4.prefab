@@ -104,6 +104,7 @@ MonoBehaviour:
   C_score: 5
   B_score: 10
   A_score: 20
+  Aplus_socre: 30
   Gamemanager: {fileID: 0}
 --- !u!61 &5969297771010938639
 BoxCollider2D:

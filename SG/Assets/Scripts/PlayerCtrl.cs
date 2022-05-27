@@ -115,6 +115,7 @@ public class PlayerCtrl : MonoBehaviour
         gameObject.layer = 8;
         life--;
         int cnt = 0;
+        anim.SetBool("Hitbool", true);
         while(cnt < 10)
         {
             if(cnt % 2 == 0)
@@ -127,6 +128,7 @@ public class PlayerCtrl : MonoBehaviour
         }
         gameObject.layer = 7;
         sprender.color = new Color32(255,255,255,255);
+        anim.SetBool("Hitbool", false);
     }
 
     IEnumerator getScore(Collider2D other, int score)
