@@ -8,15 +8,18 @@ public class PlayerCtrl : MonoBehaviour
 {
     public int MSpeed;
     public int JForce;
-    public int C_score;
-    public int B_score;
-    public int A_score;
+    public int C_score; // C학점 점수
+    public int B_score; // B학점 점수
+    public int A_score; // A학점 점수
+    public int Aplus_socre; // A+학점 점수
     public GameObject Gamemanager;
     private Vector3 Pos;
     private float Horizontal;
     private Rigidbody2D rigid2D;
     private Animator anim;
     private SpriteRenderer sprender;
+    private int life; //체력
+
     // Start is called before the first frame update
     void Start()
     {
@@ -98,7 +101,10 @@ public class PlayerCtrl : MonoBehaviour
                     break;
                 case "A":
                     StartCoroutine(getScore(other, A_score));
-                    break;    
+                    break;   
+                case "Aplus":
+                    StartCoroutine(getScore(other, Aplus_socre));
+                    break; 
             }
         }
     }
@@ -107,6 +113,7 @@ public class PlayerCtrl : MonoBehaviour
     {
         other.enabled = false;
         gameObject.layer = 8;
+        life--;
         int cnt = 0;
         while(cnt < 10)
         {
@@ -127,5 +134,10 @@ public class PlayerCtrl : MonoBehaviour
         Gamemanager.GetComponent<GameManagerCtrl>().addScore(score);
         other.enabled = false;
         yield return null;
+    }
+
+    void GameOver()
+    {
+        
     }
 }
