@@ -9,6 +9,8 @@ TagManager:
   - B
   - A
   - F
+  - Bottle
+  - Aplus
   layers:
   - Default
   - TransparentFX

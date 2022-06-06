@@ -19,6 +19,8 @@ public class PlayerCtrl : MonoBehaviour
     private Animator anim;
     private SpriteRenderer sprender;
     private int life; //체력
+    private GameObject[] lifeUI;
+    private Sprite Dlife;
 
     // Start is called before the first frame update
     void Start()
@@ -27,12 +29,24 @@ public class PlayerCtrl : MonoBehaviour
         anim = GetComponent<Animator>();
         sprender = GetComponent<SpriteRenderer>();
         Gamemanager = GameObject.Find("GameManager");
+        Dlife = Resources.Load<Sprite>("Sprites/Dlife");
+        life = 3;
+        lifeUI = new GameObject[3];
+        for (int i = 0; i < 3; i++)
+        {
+            lifeUI[i] = GameObject.Find("Life"+i);
+        }
+        
     }
 
     private void Update()
     {
         Move();
         Jump();
+        if(life == 0)
+        {
+            Gamemanager.GetComponent<GameManagerCtrl>().Gameover();
+        }
     }
     void FixedUpdate()
     {
@@ -88,10 +102,11 @@ public class PlayerCtrl : MonoBehaviour
     {
         if(other.gameObject.layer == LayerMask.NameToLayer("Score"))
         {
+            other.enabled = false;
             switch(other.gameObject.tag)
             {
                 case "F" :
-                    StartCoroutine(playerhit(other));
+                    StartCoroutine(playerhit());
                     break;
                 case "C":
                     StartCoroutine(getScore(other, C_score));
@@ -107,15 +122,22 @@ public class PlayerCtrl : MonoBehaviour
                     break; 
             }
         }
+        else if(other.tag == "Bottle")
+        {
+            other.enabled = false;
+            StartCoroutine(playerhit());
+        }
     }
 
-    IEnumerator playerhit(Collider2D other)
+    IEnumerator playerhit()
     {
-        other.enabled = false;
         gameObject.layer = 8;
         life--;
-        int cnt = 0;
+        lifeUI[life].GetComponent<Image>().sprite = Dlife;
+        lifeUI[life].GetComponent<RectTransform>().sizeDelta = new Vector2(75, 52);
         anim.SetBool("Hitbool", true);
+
+        int cnt = 0;
         while(cnt < 10)
         {
             if(cnt % 2 == 0)
@@ -134,12 +156,10 @@ public class PlayerCtrl : MonoBehaviour
     IEnumerator getScore(Collider2D other, int score)
     {
         Gamemanager.GetComponent<GameManagerCtrl>().addScore(score);
-        other.enabled = false;
         yield return null;
     }
-
-    void GameOver()
+    public void setLife(int resetlife)
     {
-        
+        life = resetlife;
     }
 }
